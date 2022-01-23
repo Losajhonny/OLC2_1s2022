@@ -1,0 +1,36 @@
+package analizadores;
+import java_cup.runtime.Symbol; 
+
+%% 
+%class Lexico
+%public 
+%line 
+%char 
+%cup 
+%unicode
+%ignorecase
+
+%init{ 
+    yyline = 1; 
+    yychar = 1; 
+%init} 
+
+BLANCOS=[ \r\t]+
+ENTEROS=[0-9]+
+
+%%
+
+"+" {return new Symbol(sym.MAS,yyline,yychar, yytext());} 
+"*" {return new Symbol(sym.POR,yyline,yychar, yytext());} 
+"(" {return new Symbol(sym.PIZQ,yyline,yychar, yytext());} 
+")" {return new Symbol(sym.PDER,yyline,yychar, yytext());} 
+
+\n {yychar=1;}
+
+{BLANCOS} {} 
+{ENTEROS} {return new Symbol(sym.NUM,yyline,yychar, yytext());}
+
+. {
+    System.out.println("Este es un error lexico: "+yytext()+
+    ", en la linea: "+yyline+", en la columna: "+yychar);
+}
