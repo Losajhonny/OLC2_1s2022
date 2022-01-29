@@ -1,0 +1,40 @@
+package analizadores;
+import java_cup.runtime.Symbol; 
+
+%% 
+%class Lexico
+%public 
+%line 
+%char 
+%cup 
+%unicode
+%ignorecase
+
+%init{ 
+    yyline = 1; 
+    yychar = 1; 
+%init} 
+
+BLANCOS=[ \r\t]+
+D=[2-9]+
+L=[a-zA-Z]+
+
+%%
+
+"0" {return new Symbol(sym.CERO,yyline,yychar, yytext());} 
+"1" {return new Symbol(sym.UNO,yyline,yychar, yytext());} 
+"(" {return new Symbol(sym.PIZQ,yyline,yychar, yytext());} 
+")" {return new Symbol(sym.PDER,yyline,yychar, yytext());} 
+"," {return new Symbol(sym.COMA,yyline,yychar, yytext());} 
+";" {return new Symbol(sym.PTCOMA,yyline,yychar, yytext());} 
+
+\n {yychar=1;}
+
+{BLANCOS} {} 
+{D} {return new Symbol(sym.NUMERO,yyline,yychar, yytext());} 
+{L} {return new Symbol(sym.LETRA,yyline,yychar, yytext());} 
+
+. {
+    System.out.println("Este es un error lexico: "+yytext()+
+    ", en la linea: "+yyline+", en la columna: "+yychar);
+}

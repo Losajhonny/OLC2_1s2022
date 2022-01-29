@@ -1,0 +1,178 @@
+/*
+ * Ejemplo desarrollado por Erick Navarro
+ * Blog: e-navarro.blogspot.com
+ * Julio - 2018
+ */
+
+package analizadores; 
+import java_cup.runtime.*;
+
+parser code 
+{:
+    /**
+     * Método al que se llama automáticamente ante algún error sintactico.
+     **/ 
+    public void syntax_error(Symbol s){ 
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+    } 
+
+    /**
+     * Método al que se llama automáticamente ante algún error sintáctico 
+     * en el que ya no es posible una recuperación de errores.
+     **/ 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error síntactico irrecuperable en la Línea " + 
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + 
+        " no reconocido."); 
+    }  
+
+    public void mostrar(String out) {
+        System.out.println(out);
+    }
+
+    public int getVal(String num) {
+        return Integer.parseInt(num);
+    }
+:} 
+
+terminal String PIZQ, PDER, COMA, PTCOMA, CERO, UNO, NUMERO, LETRA;
+
+non terminal Nodo ini, ini2, ini3, ini1;
+non terminal Nodo listaA, deA;
+non terminal Nodo listaLD, deB, listaLetra, listaNumero;
+non terminal Nodo listaBin, bin; 
+
+start with ini; 
+
+ini::=ini3;
+
+/*
+    Ejercicio 1
+
+S	::=	L	{ 
+mostrar(“Cantidad de pares de paréntesis es”, L.cont)
+			}
+
+L	::=	L A	{ L.cont = L1.cont + A.cont }
+	|	A	{ L.cont = A.cont }
+
+A	::=	( A )	{ A.cont = A1.cont + 1 }
+	|	a	{ A.cont = 0 }
+
+(a) (((((a))))) = 6
+
+*/
+
+ini1 ::=
+    listaA:L    {: mostrar("La cantidad de pares de paréntesis es " + L.cont); :}
+    ;
+
+listaA ::=
+        listaA:L1 deA:A         {:
+                                    L1.cont = L1.cont + A.cont;
+                                    RESULT = L1;
+                                :}
+    |   deA:A                   {: RESULT = A; :}
+    ;
+
+deA ::=
+        PIZQ deA:A PDER         {:
+                                    A.cont = A.cont + 1;
+                                    RESULT = A;
+                                :}
+    |   LETRA                   {:
+                                    Nodo nodo = new Nodo();
+                                    nodo.cont = 0;
+                                    RESULT = nodo;
+                                :}
+    ;
+
+/*
+    Ejercicio 2
+
+S	::=	L		{ mostrar(L.cad) } 
+
+L	::=	L , A		{ L.cad = concat(L1.cad, “,”, A.cad) } 
+	|	A		{ L.cad = A.cad } 
+
+A	::=	LL		{ A.cad = LL.cad } 
+	|	LD		{ A.cad = cadena(LD.val)} 
+
+LL	::=	letra		{ LL.cad = letra } 
+
+LD	::=	LD ; dig	{ LD.val = LD1.val + val(dig) } 
+	|	dig		{ LD.val = val(dig) } 
+
+4; 2; 3, c, 3; 2, f, 4		9, c, 5, f, 4
+*/
+
+ini2 ::=
+    listaLD:L   {: mostrar(L.cad); :}
+    ;
+
+listaLD ::=
+        listaLD:L COMA deB:A                {:
+                                                L.cad = L.cad + "," + A.cad;
+                                                RESULT = L;
+                                            :}
+    |   deB:A                               {:
+                                                RESULT = A;
+                                            :}
+    ;
+
+deB ::=
+        listaLetra:LL                       {:
+                                                RESULT = LL;
+                                            :}
+    |   listaNumero:LD                      {:
+                                                LD.cad = LD.val + "";
+                                                RESULT = LD;
+                                            :}
+    ;
+
+listaLetra ::=
+        LETRA:letra                         {:
+                                                Nodo nodo = new Nodo();
+                                                nodo.cad = letra;
+                                                RESULT = nodo;
+                                            :}
+    ;
+
+listaNumero ::=
+        listaNumero:Ld1 PTCOMA NUMERO: dig  {:
+                                                Ld1.val = Ld1.val + getVal(dig);
+                                                RESULT = Ld1;
+                                            :}
+    |   NUMERO:dig                          {:
+                                                Nodo nodo = new Nodo();
+                                                nodo.val = getVal(dig);
+                                                RESULT = nodo;
+                                            :}
+    ;
+
+/*
+    Ejercicio 3
+S	::=	L	{ mostrar(L.val) } 
+
+L	::=	L B	{ L.val = L1.val * 2 + B.val } 
+	|	B	{ L.val = B.val } 
+
+B	::=	0	{ B.val = 0 } 
+	|	1	{ B.val = 1 } 
+
+10101010	Salida: 170
+*/
+ini3 ::=
+        listaBin:L          {: mostrar(L.val + ""); :}
+    ;
+
+listaBin ::=
+        listaBin:L bin:b    {: L.val = L.val * 2 + b.val; RESULT = L; :}
+    |   bin:b               {: RESULT = b; :}
+    ;
+
+bin ::=
+        CERO            {: Nodo nodo = new Nodo(); nodo.val = 0; RESULT = nodo; :}
+    |   UNO             {: Nodo nodo = new Nodo(); nodo.val = 1; RESULT = nodo; :}
+    ;
