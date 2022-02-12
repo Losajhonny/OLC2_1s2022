@@ -1,0 +1,10 @@
+MAS=1
+POR=2
+PARI=3
+PARD=4
+NUM=5
+WHITESPACE=6
+'+'=1
+'*'=2
+'('=3
+')'=4
