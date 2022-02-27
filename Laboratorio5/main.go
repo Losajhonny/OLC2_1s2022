@@ -9,7 +9,9 @@ package main
 
 import (
 	"Laboratorio5/parser"
-	"fmt"
+	"bufio"
+	"log"
+	"os"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
@@ -19,8 +21,6 @@ type Listener struct {
 }
 
 func analizar(input string) {
-	fmt.Println(input)
-
 	// create input stream
 	stream := antlr.NewInputStream(input)
 	// create lexer
@@ -37,8 +37,21 @@ func analizar(input string) {
 	antlr.ParseTreeWalkerDefault.Walk(&listen, tree)
 }
 
+func leerEntrada(name string) string {
+	file, err := os.Open(name)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	fileScanner := bufio.NewScanner(file)
+	text := ""
+	for fileScanner.Scan() {
+		text += fileScanner.Text()
+	}
+	return text
+}
+
 func main() {
-	// input := "2 + 5 * 3"
-	input := "int a; int b; int c;"
+	input := leerEntrada("entrada.txt")
 	analizar(input)
 }

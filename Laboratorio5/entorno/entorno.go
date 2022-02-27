@@ -16,8 +16,14 @@ func NewEntorno(ant *Entorno) *Entorno {
 	return &Entorno{Ant: ant, Tabla: make(map[string]*Simbolo)}
 }
 
-func (ent *Entorno) Put(key string, sim *Simbolo) {
-	ent.Tabla[key] = sim
+func (ent *Entorno) Put(key string, sim *Simbolo) bool {
+	_, encontrado := ent.Tabla[key]
+
+	if !encontrado {
+		ent.Tabla[key] = sim
+		return true
+	}
+	return false
 }
 
 func (ent *Entorno) Get(key string) *Simbolo {
@@ -28,15 +34,30 @@ func (ent *Entorno) Get(key string) *Simbolo {
 			return sim
 		}
 	}
-
-	fmt.Println("variable no ha sido encontrada")
 	return nil
 }
 
+// mostrar símbolos de un entorno x
 func Mostrar(ent *Entorno) {
 	for _, v := range ent.Tabla {
 		fmt.Print("Identificador: ", v.Id)
 		fmt.Print("\tTipo: ", v.Tipo)
 		fmt.Println("\tDireccion: ", v.Dir)
 	}
+}
+
+// manejo de ambitos como lo maneja el libro
+var pila []*Entorno
+
+func push(e *Entorno) {
+	pila = append(pila, e)
+}
+
+func pop() *Entorno {
+	if len(pila) < 1 {
+		panic("empty env")
+	}
+	result := pila[len(pila)-1]
+	pila = pila[:len(pila)-1]
+	return result
 }
