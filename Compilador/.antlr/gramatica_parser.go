@@ -1018,7 +1018,7 @@ func (p *GramaticaParser) expresion(_p int) (localctx IExpresionContext) {
 
 				gen.Soltar(localctx.(*ExpresionContext).GetE1().GetLv())
 				gen.GenIfCad(localctx.(*ExpresionContext).GetE2().GetCad(), localctx.(*ExpresionContext).GetE2().GetLf()[0])
-				gen.GenGoto("goto " + localctx.(*ExpresionContext).GetE2().GetLv()[0])
+				gen.GenGoto(localctx.(*ExpresionContext).GetE2().GetLv()[0])
 				localctx.(*ExpresionContext).lv = localctx.(*ExpresionContext).GetE2().GetLv()
 				localctx.(*ExpresionContext).lf = localctx.(*ExpresionContext).GetE2().GetLf()
 

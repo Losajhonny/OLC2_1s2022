@@ -63,7 +63,7 @@ expresion returns[string dir, []string lv, []string lf, string cad]
     |   e1=expresion op='^'  marcador[$e1.lf] e2=expresion      {
                                                                     gen.Soltar($e1.lv)
                                                                     gen.GenIfCad($e2.cad, $e2.lf[0])
-                                                                    gen.GenGoto("goto " + $e2.lv[0])
+                                                                    gen.GenGoto($e2.lv[0])
                                                                     $lv = $e2.lv
                                                                     $lf = $e2.lf
                                                                 }
