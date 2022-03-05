@@ -118,6 +118,10 @@ instrucciones
 instruccion
     :   inst_asignacion
     |   inst_if
+    |   inst_switch_propuesta2
+    |   inst_while
+    |   inst_doWhile
+    |   inst_loop
     ;
 
 /* instruccion de asignacion */
@@ -147,11 +151,106 @@ inst_if locals[ string lsalida ]
         ('else' bloque)? {   gen.GenDestino($lsalida) }
     ;
 
+inst_switch_propuesta1 locals[ string lsalida, string lv ]
+    @init {
+        $lsalida = gen.NewEti()
+    }
+    :   'switch' e1=expresion '{'
+        (
+            'case' e2=expresion ':'     {
+                                            $lv = gen.NewEti()
+                                            gen.GenIf($e1.dir, "!=", $e2.dir, $lv)
+                                        }
+            (bloque|bloqueSinLLaves)    {
+                                            gen.GenGoto($lsalida)
+                                            gen.GenDestino($lv)
+                                        }
+        )+
+        (   'default' ':' (bloque|bloqueSinLLaves)  )? { gen.GenDestino($lsalida) }
+        '}'
+    ;
+
+inst_switch_propuesta2 locals[ string lprueba, string cad, string lsalida, string lv, bool defecto ]
+    @init {
+        $lprueba = gen.NewEti()
+        $lsalida = gen.NewEti()
+        $cad = ""
+        $defecto = false
+    }
+    :   'switch' e1=expresion '{'       {
+                                            gen.GenGoto($lprueba)
+                                        }
+        (
+            'case' e2=expresion ':'     {
+                                            $lv = gen.NewEti()
+                                            gen.GenDestino($lv)
+                                            $cad += "if " + $e1.dir + " = " + $e2.dir + " then goto " + $lv + "\n"
+                                        }
+            (bloque|bloqueSinLLaves)    {
+                                            gen.GenGoto($lsalida)
+                                        }
+        )+
+        (   'default' ':'               {
+                                            $lv = gen.NewEti()
+                                            $defecto = true
+                                            gen.GenDestino($lv)
+                                        }
+            (bloque|bloqueSinLLaves)    {
+                                            gen.GenGoto($lsalida)
+                                        }
+        )?                                  {
+                                                gen.GenDestino($lprueba)
+                                                gen.Gen($cad)
+                                                if $defecto {
+                                                    gen.GenGoto($lv)
+                                                }
+                                                gen.GenDestino($lsalida)
+                                            }
+        '}'
+    ;
+
 /* instrucciones ciclicas */
+inst_while locals[ string linicio ]
+    @init {
+        $linicio = gen.NewEti()
+    }
+    :   'while'         {   gen.GenDestino($linicio)    }
+            e=expresion {   gen.Soltar($e.lv)           }
+                bloque  {
+                            gen.GenGoto($linicio)
+                            gen.Soltar($e.lf)
+                        }
+    ;
+
+inst_doWhile locals[ string linicio ]
+    :   'do' {
+                $linicio = gen.NewEti()
+                gen.GenDestino($linicio)
+            }
+            bloque 'while' e=expresion ';'  {
+                                                gen.Soltar($e.lv)
+                                                gen.GenGoto($linicio)
+                                                gen.Soltar($e.lf)
+                                            }
+    ;
+
+inst_loop locals[ string linicio ]
+    :   'loop'  {
+                    $linicio = gen.NewEti()
+                    gen.GenDestino($linicio)
+                }
+            bloque  {
+                        gen.GenGoto($linicio)
+                    }
+    ;
 
 /* bloque de instrucciones */
 bloque
     :   '{' instrucciones '}'
+    ;
+
+bloqueSinLLaves
+    :   instrucciones
     ;
 
 /* Tokens */

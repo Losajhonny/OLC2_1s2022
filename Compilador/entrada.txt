@@ -1,7 +1,4 @@
-if a > b {
-    x = 20;
-} else if a > 10 {
-    x = 30;
-} else {
-    x = 40;
+loop {
+    a = a + 1;
+    b = 20;
 }

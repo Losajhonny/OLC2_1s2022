@@ -69,8 +69,44 @@ func (s *BaseGramaticaListener) EnterInst_if(ctx *Inst_ifContext) {}
 // ExitInst_if is called when production inst_if is exited.
 func (s *BaseGramaticaListener) ExitInst_if(ctx *Inst_ifContext) {}
 
+// EnterInst_switch_propuesta1 is called when production inst_switch_propuesta1 is entered.
+func (s *BaseGramaticaListener) EnterInst_switch_propuesta1(ctx *Inst_switch_propuesta1Context) {}
+
+// ExitInst_switch_propuesta1 is called when production inst_switch_propuesta1 is exited.
+func (s *BaseGramaticaListener) ExitInst_switch_propuesta1(ctx *Inst_switch_propuesta1Context) {}
+
+// EnterInst_switch_propuesta2 is called when production inst_switch_propuesta2 is entered.
+func (s *BaseGramaticaListener) EnterInst_switch_propuesta2(ctx *Inst_switch_propuesta2Context) {}
+
+// ExitInst_switch_propuesta2 is called when production inst_switch_propuesta2 is exited.
+func (s *BaseGramaticaListener) ExitInst_switch_propuesta2(ctx *Inst_switch_propuesta2Context) {}
+
+// EnterInst_while is called when production inst_while is entered.
+func (s *BaseGramaticaListener) EnterInst_while(ctx *Inst_whileContext) {}
+
+// ExitInst_while is called when production inst_while is exited.
+func (s *BaseGramaticaListener) ExitInst_while(ctx *Inst_whileContext) {}
+
+// EnterInst_doWhile is called when production inst_doWhile is entered.
+func (s *BaseGramaticaListener) EnterInst_doWhile(ctx *Inst_doWhileContext) {}
+
+// ExitInst_doWhile is called when production inst_doWhile is exited.
+func (s *BaseGramaticaListener) ExitInst_doWhile(ctx *Inst_doWhileContext) {}
+
+// EnterInst_loop is called when production inst_loop is entered.
+func (s *BaseGramaticaListener) EnterInst_loop(ctx *Inst_loopContext) {}
+
+// ExitInst_loop is called when production inst_loop is exited.
+func (s *BaseGramaticaListener) ExitInst_loop(ctx *Inst_loopContext) {}
+
 // EnterBloque is called when production bloque is entered.
 func (s *BaseGramaticaListener) EnterBloque(ctx *BloqueContext) {}
 
 // ExitBloque is called when production bloque is exited.
 func (s *BaseGramaticaListener) ExitBloque(ctx *BloqueContext) {}
+
+// EnterBloqueSinLLaves is called when production bloqueSinLLaves is entered.
+func (s *BaseGramaticaListener) EnterBloqueSinLLaves(ctx *BloqueSinLLavesContext) {}
+
+// ExitBloqueSinLLaves is called when production bloqueSinLLaves is exited.
+func (s *BaseGramaticaListener) ExitBloqueSinLLaves(ctx *BloqueSinLLavesContext) {}

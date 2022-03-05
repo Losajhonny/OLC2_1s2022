@@ -42,6 +42,7 @@ func GenGoto(eti string) {
 
 // Genera etiqueta destino
 func GenDestino(eti string) {
+	// L1:
 	Genln(eti + ":")
 }
 

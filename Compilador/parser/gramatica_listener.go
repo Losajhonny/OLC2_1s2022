@@ -32,8 +32,26 @@ type GramaticaListener interface {
 	// EnterInst_if is called when entering the inst_if production.
 	EnterInst_if(c *Inst_ifContext)
 
+	// EnterInst_switch_propuesta1 is called when entering the inst_switch_propuesta1 production.
+	EnterInst_switch_propuesta1(c *Inst_switch_propuesta1Context)
+
+	// EnterInst_switch_propuesta2 is called when entering the inst_switch_propuesta2 production.
+	EnterInst_switch_propuesta2(c *Inst_switch_propuesta2Context)
+
+	// EnterInst_while is called when entering the inst_while production.
+	EnterInst_while(c *Inst_whileContext)
+
+	// EnterInst_doWhile is called when entering the inst_doWhile production.
+	EnterInst_doWhile(c *Inst_doWhileContext)
+
+	// EnterInst_loop is called when entering the inst_loop production.
+	EnterInst_loop(c *Inst_loopContext)
+
 	// EnterBloque is called when entering the bloque production.
 	EnterBloque(c *BloqueContext)
+
+	// EnterBloqueSinLLaves is called when entering the bloqueSinLLaves production.
+	EnterBloqueSinLLaves(c *BloqueSinLLavesContext)
 
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
@@ -59,6 +77,24 @@ type GramaticaListener interface {
 	// ExitInst_if is called when exiting the inst_if production.
 	ExitInst_if(c *Inst_ifContext)
 
+	// ExitInst_switch_propuesta1 is called when exiting the inst_switch_propuesta1 production.
+	ExitInst_switch_propuesta1(c *Inst_switch_propuesta1Context)
+
+	// ExitInst_switch_propuesta2 is called when exiting the inst_switch_propuesta2 production.
+	ExitInst_switch_propuesta2(c *Inst_switch_propuesta2Context)
+
+	// ExitInst_while is called when exiting the inst_while production.
+	ExitInst_while(c *Inst_whileContext)
+
+	// ExitInst_doWhile is called when exiting the inst_doWhile production.
+	ExitInst_doWhile(c *Inst_doWhileContext)
+
+	// ExitInst_loop is called when exiting the inst_loop production.
+	ExitInst_loop(c *Inst_loopContext)
+
 	// ExitBloque is called when exiting the bloque production.
 	ExitBloque(c *BloqueContext)
+
+	// ExitBloqueSinLLaves is called when exiting the bloqueSinLLaves production.
+	ExitBloqueSinLLaves(c *BloqueSinLLavesContext)
 }
