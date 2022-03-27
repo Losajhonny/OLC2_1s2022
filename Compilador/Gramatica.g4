@@ -20,7 +20,8 @@ options {
 
 /* Reglas */
 start
-    :   instrucciones EOF
+    :   { tope = entorno.NewEntorno(nil) }
+        instrucciones EOF
     ;
 
 /* marcador para soltar etiquetas */
@@ -99,6 +100,10 @@ expresion returns[string dir, []string lv, []string lf, string cad]
                                     $lf = append($lf, gen.NewEti())
                                     gen.GenGoto($lf[0])
                                 }
+    |   ref=lref ']'            {
+                                    $dir = gen.NewTemp()
+                                    gen.Genln($dir + " = " + $ref.id + "[" + $ref.aux + "]")
+                                }
     ;
 
 oprel returns[ string op ]
@@ -116,7 +121,8 @@ instrucciones
     ;
 
 instruccion
-    :   inst_asignacion
+    :   inst_declaracion
+    |   inst_asignacion
     |   inst_if
     |   inst_switch_propuesta2
     |   inst_while
@@ -127,6 +133,61 @@ instruccion
 /* instruccion de asignacion */
 inst_asignacion
     :   id=ID '=' e=expresion ';' { gen.GenAsignacion($id.text, $e.dir) }
+    |   ref=lref ']' '=' e=expresion ';'    {
+                                                gen.Genln($ref.id + "[" + $ref.aux + "] = " + $e.dir)
+                                            }
+    ;
+
+lref returns[ string id, string aux, int dim_ ]
+    :   ref=lref ',' e=expresion    {
+                                        tmp1 := gen.NewTemp()
+                                        gen.Genln(tmp1 + " = " + $e.dir + " - 1")
+
+                                        tmp2 := gen.NewTemp()
+                                        gen.Genln(tmp2 + " = " + tmp1 + " * " + entorno.GetTamDim($ref.id, $ref.dim_, tope))
+                                        gen.Genln($ref.aux + " = " + $ref.aux + " + " + tmp2)
+
+                                        $id = $ref.id
+                                        $aux = $ref.aux
+                                        $dim_ = $ref.dim_ + 1
+                                    }
+    |   id_=ID '[' e=expresion      {
+                                        $id = $id_.text
+                                        $aux = gen.NewTemp()
+                                        $dim_ = 1
+                                        gen.Genln($aux + " = " + $e.dir)
+                                    }
+    ;
+
+/* instrucción de declaracion */
+inst_declaracion
+    :   t=tipo id=ID ';'                {
+                                            s := entorno.NewSimbolo($id.text, $t.cad, desp)
+                                            desp = desp + 1
+                                            tope.Put($id.text, s)
+                                        }
+    |   'array' '[' dims=ldims ']' id=ID ';'    {
+                                                    s := entorno.NewSimboloArr($id.text, $dims.dim_, desp)
+                                                    desp = desp + 1
+                                                    tope.Put($id.text, s)
+                                                }
+    ;
+
+ldims returns[ []*entorno.Dim dim_ ]
+    :   n1=NUM '..' n2=NUM  {
+                                d := entorno.NewDim($n1.int, $n2.int)
+                                $dim_ = append($dim_, d)
+                            }
+        (',' n3=NUM '..' n4=NUM
+                            {
+                                d := entorno.NewDim($n3.int, $n4.int)
+                                $dim_ = append($dim_, d)
+                            }
+        )*
+    ;
+
+tipo returns [ string cad ]
+    :   'int' { $cad = "int" }
     ;
 
 /* instrucciones de seleccion */
@@ -246,11 +307,26 @@ inst_loop locals[ string linicio ]
 
 /* bloque de instrucciones */
 bloque
-    :   '{' instrucciones '}'
+    :   {
+            entorno.Push(tope)
+            tope = entorno.NewEntorno(tope)
+        }
+        '{' instrucciones '}'
+        {
+            tope = entorno.Pop()
+        }
     ;
 
 bloqueSinLLaves
-    :   instrucciones
+    :
+        {
+            entorno.Push(tope)
+            tope = entorno.NewEntorno(tope)
+        }
+        instrucciones
+        {
+            tope = entorno.Pop()
+        }
     ;
 
 /* Tokens */

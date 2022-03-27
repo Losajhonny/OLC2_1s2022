@@ -63,6 +63,30 @@ func (s *BaseGramaticaListener) EnterInst_asignacion(ctx *Inst_asignacionContext
 // ExitInst_asignacion is called when production inst_asignacion is exited.
 func (s *BaseGramaticaListener) ExitInst_asignacion(ctx *Inst_asignacionContext) {}
 
+// EnterLref is called when production lref is entered.
+func (s *BaseGramaticaListener) EnterLref(ctx *LrefContext) {}
+
+// ExitLref is called when production lref is exited.
+func (s *BaseGramaticaListener) ExitLref(ctx *LrefContext) {}
+
+// EnterInst_declaracion is called when production inst_declaracion is entered.
+func (s *BaseGramaticaListener) EnterInst_declaracion(ctx *Inst_declaracionContext) {}
+
+// ExitInst_declaracion is called when production inst_declaracion is exited.
+func (s *BaseGramaticaListener) ExitInst_declaracion(ctx *Inst_declaracionContext) {}
+
+// EnterLdims is called when production ldims is entered.
+func (s *BaseGramaticaListener) EnterLdims(ctx *LdimsContext) {}
+
+// ExitLdims is called when production ldims is exited.
+func (s *BaseGramaticaListener) ExitLdims(ctx *LdimsContext) {}
+
+// EnterTipo is called when production tipo is entered.
+func (s *BaseGramaticaListener) EnterTipo(ctx *TipoContext) {}
+
+// ExitTipo is called when production tipo is exited.
+func (s *BaseGramaticaListener) ExitTipo(ctx *TipoContext) {}
+
 // EnterInst_if is called when production inst_if is entered.
 func (s *BaseGramaticaListener) EnterInst_if(ctx *Inst_ifContext) {}
 

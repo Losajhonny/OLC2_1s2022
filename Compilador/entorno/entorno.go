@@ -1,6 +1,9 @@
 package entorno
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 type Entorno struct {
 	Ant   *Entorno
@@ -49,15 +52,29 @@ func Mostrar(ent *Entorno) {
 // manejo de ambitos como lo maneja el libro
 var pila []*Entorno
 
-func push(e *Entorno) {
+func Push(e *Entorno) {
 	pila = append(pila, e)
 }
 
-func pop() *Entorno {
+func Pop() *Entorno {
 	if len(pila) < 1 {
 		panic("empty env")
 	}
 	result := pila[len(pila)-1]
 	pila = pila[:len(pila)-1]
 	return result
+}
+
+func GetTamDim(id string, noDim int, e *Entorno) string {
+	tam := 1
+
+	s := e.Get(id)
+
+	for i := 0; i < noDim; i++ {
+		dim := s.Dims[i]
+		dif := (dim.Lsup - dim.Linf) + 1
+		tam = tam * dif
+	}
+
+	return strconv.Itoa(tam)
 }
