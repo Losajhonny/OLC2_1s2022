@@ -20,6 +20,9 @@ type GramaticaListener interface {
 	// EnterOprel is called when entering the oprel production.
 	EnterOprel(c *OprelContext)
 
+	// EnterLref is called when entering the lref production.
+	EnterLref(c *LrefContext)
+
 	// EnterInstrucciones is called when entering the instrucciones production.
 	EnterInstrucciones(c *InstruccionesContext)
 
@@ -38,17 +41,14 @@ type GramaticaListener interface {
 	// EnterInst_asignacion is called when entering the inst_asignacion production.
 	EnterInst_asignacion(c *Inst_asignacionContext)
 
-	// EnterLref is called when entering the lref production.
-	EnterLref(c *LrefContext)
-
 	// EnterInst_if is called when entering the inst_if production.
 	EnterInst_if(c *Inst_ifContext)
 
 	// EnterInst_switch_propuesta1 is called when entering the inst_switch_propuesta1 production.
 	EnterInst_switch_propuesta1(c *Inst_switch_propuesta1Context)
 
-	// EnterInst_switch_propuesta2 is called when entering the inst_switch_propuesta2 production.
-	EnterInst_switch_propuesta2(c *Inst_switch_propuesta2Context)
+	// EnterInst_switch is called when entering the inst_switch production.
+	EnterInst_switch(c *Inst_switchContext)
 
 	// EnterInst_while is called when entering the inst_while production.
 	EnterInst_while(c *Inst_whileContext)
@@ -59,11 +59,20 @@ type GramaticaListener interface {
 	// EnterInst_loop is called when entering the inst_loop production.
 	EnterInst_loop(c *Inst_loopContext)
 
+	// EnterInst_for is called when entering the inst_for production.
+	EnterInst_for(c *Inst_forContext)
+
+	// EnterInst_break is called when entering the inst_break production.
+	EnterInst_break(c *Inst_breakContext)
+
+	// EnterInst_continue is called when entering the inst_continue production.
+	EnterInst_continue(c *Inst_continueContext)
+
 	// EnterBloque is called when entering the bloque production.
 	EnterBloque(c *BloqueContext)
 
-	// EnterBloqueSinLLaves is called when entering the bloqueSinLLaves production.
-	EnterBloqueSinLLaves(c *BloqueSinLLavesContext)
+	// EnterBloqueSinLlaves is called when entering the bloqueSinLlaves production.
+	EnterBloqueSinLlaves(c *BloqueSinLlavesContext)
 
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
@@ -76,6 +85,9 @@ type GramaticaListener interface {
 
 	// ExitOprel is called when exiting the oprel production.
 	ExitOprel(c *OprelContext)
+
+	// ExitLref is called when exiting the lref production.
+	ExitLref(c *LrefContext)
 
 	// ExitInstrucciones is called when exiting the instrucciones production.
 	ExitInstrucciones(c *InstruccionesContext)
@@ -95,17 +107,14 @@ type GramaticaListener interface {
 	// ExitInst_asignacion is called when exiting the inst_asignacion production.
 	ExitInst_asignacion(c *Inst_asignacionContext)
 
-	// ExitLref is called when exiting the lref production.
-	ExitLref(c *LrefContext)
-
 	// ExitInst_if is called when exiting the inst_if production.
 	ExitInst_if(c *Inst_ifContext)
 
 	// ExitInst_switch_propuesta1 is called when exiting the inst_switch_propuesta1 production.
 	ExitInst_switch_propuesta1(c *Inst_switch_propuesta1Context)
 
-	// ExitInst_switch_propuesta2 is called when exiting the inst_switch_propuesta2 production.
-	ExitInst_switch_propuesta2(c *Inst_switch_propuesta2Context)
+	// ExitInst_switch is called when exiting the inst_switch production.
+	ExitInst_switch(c *Inst_switchContext)
 
 	// ExitInst_while is called when exiting the inst_while production.
 	ExitInst_while(c *Inst_whileContext)
@@ -116,9 +125,18 @@ type GramaticaListener interface {
 	// ExitInst_loop is called when exiting the inst_loop production.
 	ExitInst_loop(c *Inst_loopContext)
 
+	// ExitInst_for is called when exiting the inst_for production.
+	ExitInst_for(c *Inst_forContext)
+
+	// ExitInst_break is called when exiting the inst_break production.
+	ExitInst_break(c *Inst_breakContext)
+
+	// ExitInst_continue is called when exiting the inst_continue production.
+	ExitInst_continue(c *Inst_continueContext)
+
 	// ExitBloque is called when exiting the bloque production.
 	ExitBloque(c *BloqueContext)
 
-	// ExitBloqueSinLLaves is called when exiting the bloqueSinLLaves production.
-	ExitBloqueSinLLaves(c *BloqueSinLLavesContext)
+	// ExitBloqueSinLlaves is called when exiting the bloqueSinLlaves production.
+	ExitBloqueSinLlaves(c *BloqueSinLlavesContext)
 }

@@ -46,7 +46,7 @@ func (ent *Entorno) Get(key string) *Simbolo {
 func Mostrar(ent *Entorno) {
 	for _, v := range ent.Tabla {
 		fmt.Print("Identificador: ", v.Id)
-		fmt.Print("\tTipo: ", v.Tipo)
+		fmt.Print("\tTipo: ", v.TipoDato)
 		fmt.Println("\tDireccion: ", v.Dir)
 	}
 }
@@ -67,12 +67,26 @@ func Pop() *Entorno {
 	return result
 }
 
-func GetTamOrdenColumn(id string, noDim int, e *Entorno) string {
+func GetTamOrdenColumnas(id string, noDim int, e *Entorno) string {
 	tam := 1
 
 	s := e.Get(id)
 
 	for i := 0; i < noDim; i++ {
+		dim := s.Dimensiones[i]
+		dif := (dim.Lsuperior - dim.Linferior) + 1
+		tam = tam * dif
+	}
+
+	return strconv.Itoa(tam)
+}
+
+func GetTamOrdenFilas(id string, noDim int, e *Entorno) string {
+	tam := 1
+
+	s := e.Get(id)
+
+	for i := noDim; i < len(s.Dimensiones); i++ {
 		dim := s.Dimensiones[i]
 		dif := (dim.Lsuperior - dim.Linferior) + 1
 		tam = tam * dif
