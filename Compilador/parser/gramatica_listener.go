@@ -26,12 +26,6 @@ type GramaticaListener interface {
 	// EnterInstruccion is called when entering the instruccion production.
 	EnterInstruccion(c *InstruccionContext)
 
-	// EnterInst_asignacion is called when entering the inst_asignacion production.
-	EnterInst_asignacion(c *Inst_asignacionContext)
-
-	// EnterLref is called when entering the lref production.
-	EnterLref(c *LrefContext)
-
 	// EnterInst_declaracion is called when entering the inst_declaracion production.
 	EnterInst_declaracion(c *Inst_declaracionContext)
 
@@ -40,6 +34,12 @@ type GramaticaListener interface {
 
 	// EnterTipo is called when entering the tipo production.
 	EnterTipo(c *TipoContext)
+
+	// EnterInst_asignacion is called when entering the inst_asignacion production.
+	EnterInst_asignacion(c *Inst_asignacionContext)
+
+	// EnterLref is called when entering the lref production.
+	EnterLref(c *LrefContext)
 
 	// EnterInst_if is called when entering the inst_if production.
 	EnterInst_if(c *Inst_ifContext)
@@ -83,12 +83,6 @@ type GramaticaListener interface {
 	// ExitInstruccion is called when exiting the instruccion production.
 	ExitInstruccion(c *InstruccionContext)
 
-	// ExitInst_asignacion is called when exiting the inst_asignacion production.
-	ExitInst_asignacion(c *Inst_asignacionContext)
-
-	// ExitLref is called when exiting the lref production.
-	ExitLref(c *LrefContext)
-
 	// ExitInst_declaracion is called when exiting the inst_declaracion production.
 	ExitInst_declaracion(c *Inst_declaracionContext)
 
@@ -97,6 +91,12 @@ type GramaticaListener interface {
 
 	// ExitTipo is called when exiting the tipo production.
 	ExitTipo(c *TipoContext)
+
+	// ExitInst_asignacion is called when exiting the inst_asignacion production.
+	ExitInst_asignacion(c *Inst_asignacionContext)
+
+	// ExitLref is called when exiting the lref production.
+	ExitLref(c *LrefContext)
 
 	// ExitInst_if is called when exiting the inst_if production.
 	ExitInst_if(c *Inst_ifContext)

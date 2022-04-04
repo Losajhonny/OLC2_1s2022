@@ -1,25 +1,36 @@
 package entorno
 
 type Simbolo struct {
-	Id   string
-	Tipo string
-	Dims []*Dim
-	Dir  int
+	Id          string
+	Tipo        string
+	Dir         int
+	NoDimension int
+	Dimensiones []*Dimension
 }
 
-type Dim struct {
-	Linf int
-	Lsup int
+type Dimension struct {
+	Linferior int
+	Lsuperior int
 }
 
-func NewSimbolo(id string, tipo string, dir int) *Simbolo {
-	return &Simbolo{Id: id, Tipo: tipo, Dir: dir}
+func NewVar(id string, tipo string, dir int) *Simbolo {
+	sim := new(Simbolo)
+	sim.Id = id
+	sim.Tipo = tipo
+	sim.Dir = dir
+	return sim
 }
 
-func NewSimboloArr(id string, dims []*Dim, dir int) *Simbolo {
-	return &Simbolo{Id: id, Dims: dims, Dir: dir}
+func NewVarArray(id string, tipo string, dir int, noDim int, dims []*Dimension) *Simbolo {
+	sim := NewVar(id, tipo, dir)
+	sim.NoDimension = noDim
+	sim.Dimensiones = dims
+	return sim
 }
 
-func NewDim(inf int, sup int) *Dim {
-	return &Dim{Linf: inf, Lsup: sup}
+func NewDimension(inf int, sup int) *Dimension {
+	dim := new(Dimension)
+	dim.Linferior = inf
+	dim.Lsuperior = sup
+	return dim
 }

@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-// funcion para generar cadena
 func Gen(out string) {
 	fmt.Print(out)
 }
@@ -13,48 +12,40 @@ func Genln(out string) {
 	fmt.Println(out)
 }
 
-// Genera operacion unaria
-func GenOperacionUnaria(dir1 string, op string, dir2 string) {
-	Genln(dir1 + " = " + op + " " + dir2)
+func AddExpresionUnaria(dir string, op string, der string) {
+	Genln(dir + " = " + op + " " + der)
 }
 
-// Genera operacion binaria
-func GenOperacion(dir1 string, dir2 string, op string, dir3 string) {
-	Genln(dir1 + " = " + dir2 + " " + op + " " + dir3)
+func AddExpresion(dir string, izq string, op string, der string) {
+	Genln(dir + " = " + izq + " " + op + " " + der)
 }
 
-// Genera instruccion condicional
-// retorna la operacion
-func GenIf(dir1 string, op string, dir2 string, lv string) string {
-	cad := dir1 + " " + op + " " + dir2
-	Genln("if " + cad + " then goto " + lv)
+func AddIf(izq string, op string, der string, label string) string {
+	cad := izq + " " + op + " " + der
+	Genln("if " + cad + " then goto " + label)
 	return cad
 }
 
-func GenIfCad(cad string, lv string) {
-	Genln("if " + cad + " then goto " + lv)
+func AddIfCad(cad string, label string) {
+	Genln("if " + cad + " then goto " + label)
 }
 
-// Genera instruccion incondicional
-func GenGoto(eti string) {
-	Genln("goto " + eti)
+func AddGoto(label string) {
+	Genln("goto " + label)
 }
 
-// Genera etiqueta destino
-func GenDestino(eti string) {
-	// L1:
-	Genln(eti + ":")
+func AddLabel(label string) {
+	Genln(label + ":")
 }
 
-// Genera asignacion
-func GenAsignacion(dir1 string, dir2 string) {
-	Genln(dir1 + " = " + dir2)
+func AddAsign(dir string, exp string) {
+	Genln(dir + " = " + exp)
 }
 
-func GenSetArreglo(dir1 string, pos string, dir2 string) {
-	Genln(dir1 + "[" + pos + "] = " + dir2)
+func AddSetArray(dir string, pos string, exp string) {
+	Genln(dir + "[" + pos + "] = " + exp)
 }
 
-func GenGetArreglo(dir1 string, dir2 string, pos string) {
-	Genln(dir1 + " = " + dir2 + "[" + pos + "]")
+func AddGetArray(dir string, id string, pos string) {
+	Genln(dir + " = " + id + "[" + pos + "]")
 }

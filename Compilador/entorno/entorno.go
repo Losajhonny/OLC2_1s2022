@@ -16,13 +16,15 @@ type IEntorno interface {
 }
 
 func NewEntorno(ant *Entorno) *Entorno {
-	return &Entorno{Ant: ant, Tabla: make(map[string]*Simbolo)}
+	ent := new(Entorno)
+	ent.Ant = ant
+	ent.Tabla = make(map[string]*Simbolo)
+	return ent
 }
 
 func (ent *Entorno) Put(key string, sim *Simbolo) bool {
-	_, encontrado := ent.Tabla[key]
-
-	if !encontrado {
+	_, existe := ent.Tabla[key]
+	if !existe {
 		ent.Tabla[key] = sim
 		return true
 	}
@@ -65,14 +67,14 @@ func Pop() *Entorno {
 	return result
 }
 
-func GetTamDim(id string, noDim int, e *Entorno) string {
+func GetTamOrdenColumn(id string, noDim int, e *Entorno) string {
 	tam := 1
 
 	s := e.Get(id)
 
 	for i := 0; i < noDim; i++ {
-		dim := s.Dims[i]
-		dif := (dim.Lsup - dim.Linf) + 1
+		dim := s.Dimensiones[i]
+		dif := (dim.Lsuperior - dim.Linferior) + 1
 		tam = tam * dif
 	}
 
