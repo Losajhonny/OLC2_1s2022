@@ -8,10 +8,9 @@
 package main
 
 import (
+	"Compilador/bloques"
 	"Compilador/parser"
-	"bufio"
-	"log"
-	"os"
+	"fmt"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
@@ -37,21 +36,23 @@ func analizar(input string) {
 	antlr.ParseTreeWalkerDefault.Walk(&listen, tree)
 }
 
-func leerEntrada(name string) string {
-	file, err := os.Open(name)
-	if err != nil {
-		log.Fatal(err)
+func optimizarCodigo() {
+	cajas := bloques.LecturaC3D("salida.txt")
+
+	for _, caja_ := range cajas.ToArray() {
+		caja := caja_.(*bloques.Caja)
+		bloques.DeterminarLider(caja.Insts)
+		caja.Bloques = bloques.GenerarBloques(caja.Insts)
+		bloques.GenerarGrafo(caja.Bloques)
+		caja.GetDotGrafo()
+		caja.OptimizarSubExpresionesComunesLocal()
+		caja.OptimizarPropagacionDeCopiasLocal()
 	}
-	defer file.Close()
-	fileScanner := bufio.NewScanner(file)
-	text := ""
-	for fileScanner.Scan() {
-		text += fileScanner.Text()
-	}
-	return text
+
+	dot := bloques.GetDotGrafo(cajas)
+	fmt.Println(dot)
 }
 
 func main() {
-	input := leerEntrada("entrada.txt")
-	analizar(input)
+	optimizarCodigo()
 }

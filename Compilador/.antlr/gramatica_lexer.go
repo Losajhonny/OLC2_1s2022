@@ -1,4 +1,4 @@
-// Code generated from c:\Users\Jhonny\Desktop\Git\HolaMundo\Compilador\Gramatica.g4 by ANTLR 4.8. DO NOT EDIT.
+// Code generated from c:\Users\Jhonny\Desktop\Git\OLC2_1s2022\Compilador\Gramatica.g4 by ANTLR 4.8. DO NOT EDIT.
 
 package parser
 

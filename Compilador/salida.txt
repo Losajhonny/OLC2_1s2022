@@ -1,0 +1,63 @@
+#include <stdio.h>
+float stack[100000];
+float heap[100000];
+float P;
+float H;
+float t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13;
+
+// HOLA
+
+void imprimir () {
+	t1 = stack[(int)P];
+	t2 = heap[(int)t1];
+	t3 = - 1;
+L1:
+	if (t2 == t3) goto L2;
+	printf("%c", (int)t2);
+	t1 = t1 + 1;
+	t2 = heap[(int)t1];
+	goto L1;
+L2:
+	return;
+}
+
+int main() {
+	t4 = P;
+	t4 = t4 + 0;
+	stack[(int)t4] = 5;
+L3:
+	t5 = P + 0;
+	t6 = stack[(int)t5];
+	if (t6 >= 0) goto L4;
+	goto L5;
+L4:
+	t7 = P + 0;
+	t8 = stack[(int)t7];
+	printf("%d", (int)t8);
+	printf("%c", (int)10);
+	printf("%c", (int)13);
+	t9 = P + 0;
+	t10 = stack[(int)t9];
+	t11 = t10 - 1;
+	t12 = P;
+	t12 = t12 + 0;
+	stack[(int)t12] = t11;
+	goto L3;
+L5:
+	t13 = H;
+	heap[(int)H] = 70;
+	H = H + 1;
+	heap[(int)H] = 105;
+	H = H + 1;
+	heap[(int)H] = 110;
+	H = H + 1;
+	heap[(int)H] = - 1;
+	H = H + 1;
+	P = P + 1;
+	stack[(int)P] = t13;
+	imprimir();
+	P = P - 1;
+	printf("%c", (int)10);
+	printf("%c", (int)13);
+	return 0;
+}
